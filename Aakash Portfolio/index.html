@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aakash Bhor — Creative Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --black: #0a0a0a;
+  --white: #f5f2ed;
+  --cream: #f0ece6;
+  --cream-mid: #e8e3dc;
+  --cream-dark: #dedad3;
+  --ink: #0a0a0a;
+  --ink-light: rgba(10,10,10,.45);
+}
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ─── CURSOR ─── */
+.cursor { position:fixed; width:10px; height:10px; background:var(--ink); border-radius:50%; pointer-events:none; z-index:9999; mix-blend-mode:difference; transform:translate(-50%,-50%); transition:transform .15s; }
+.nav-cv-btn {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 20px;
+  border:1px solid rgba(10,10,10,.35);
+  color:rgba(10,10,10,.7);
+  text-decoration:none;
+  font-size:.6rem; font-weight:500; letter-spacing:.22em; text-transform:uppercase;
+  border-radius:100px;
+  position:relative; overflow:hidden;
+  transition:color .35s, border-color .35s;
+  cursor:none;
+  flex-shrink:0;
+}
+.nav-cv-btn::before {
+  content:''; position:absolute; inset:0;
+  background:#0a0a0a; border-radius:100px;
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .4s cubic-bezier(.23,1,.32,1);
+}
+.nav-cv-btn:hover::before { transform:scaleX(1); }
+.nav-cv-btn:hover { color:var(--cream); border-color:#0a0a0a; }
+.nav-cv-btn span { position:relative; z-index:1; }
+
+/* ─── WORK EXPERIENCE ─── */
+#work-experience { background: var(--cream); padding: 100px 60px 80px; border-top:1px solid rgba(10,10,10,.07); }
+.we-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-top:0; }
+.we-card {
+  background: var(--cream-mid);
+  padding: 48px 50px;
+  position:relative;
+  transition: background .3s;
+  overflow:hidden;
+}
+.we-card:hover { background: var(--cream-dark); }
+.we-card::after {
+  content:''; position:absolute; bottom:0; left:0;
+  width:0; height:2px; background:#0a0a0a;
+  transition:width .5s cubic-bezier(.23,1,.32,1);
+}
+.we-card:hover::after { width:100%; }
+.we-card-tag {
+  font-size:.55rem; letter-spacing:.3em; text-transform:uppercase;
+  color:rgba(10,10,10,.35); margin-bottom:28px;
+  display:flex; align-items:center; gap:10px;
+}
+.we-card-tag::before { content:''; width:22px; height:1px; background:rgba(10,10,10,.25); }
+.we-logo-wrap {
+  width:160px; height:70px;
+  display:flex; align-items:center; justify-content:flex-start;
+  margin-bottom:28px;
+  overflow:hidden;
+}
+.we-logo-wrap img {
+  width:100%; height:100%; object-fit:contain; object-position:left center;
+  filter: invert(0);
+}
+.we-logo-wrap.invert-logo img { filter: invert(1) brightness(0.15); }
+.we-company { font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:.06em; color:#0a0a0a; margin-bottom:6px; }
+.we-role { font-family:'Playfair Display',serif; font-style:italic; font-size:1.1rem; color:rgba(10,10,10,.6); margin-bottom:18px; }
+.we-period {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:.58rem; letter-spacing:.2em; text-transform:uppercase;
+  color:rgba(10,10,10,.4); margin-bottom:22px;
+}
+.we-period .dot-live {
+  width:6px; height:6px; border-radius:50%; background:#0a0a0a;
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.4;transform:scale(.7)}
+}
+.we-desc { font-size:.72rem; line-height:1.85; color:rgba(10,10,10,.5); max-width:380px; }
+.we-desc strong { color:#0a0a0a; font-weight:600; }
+
+/* freelance icon */
+.we-freelance-icon {
+  width:70px; height:70px;
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:28px;
+  font-size:2.2rem; opacity:.55;
+}
+
+.cursor-ring { position:fixed; width:38px; height:38px; border:1px solid rgba(10,10,10,.35); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); }
+
+/* ─── LOADER ─── */
+#loader {
+  position: fixed; inset: 0; background: var(--cream);
+  z-index: 10000; display: flex; align-items: center; justify-content: center;
+  transition: opacity .9s cubic-bezier(.23,1,.32,1), visibility .9s;
+}
+#loader.done { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader-text { font-family:'Bebas Neue',sans-serif; font-size: clamp(3rem,9vw,7rem); color:#0a0a0a; display:flex; gap:.04em; overflow:hidden; }
+.loader-text span { display:inline-block; animation: letterDrop .65s cubic-bezier(.23,1,.32,1) both; }
+@keyframes letterDrop { from{transform:translateY(-110%);opacity:0} to{transform:translateY(0);opacity:1} }
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;
+  top:0; left:0; width:100%;
+  z-index:1000;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:28px 60px;
+  transition: background .4s ease, padding .4s ease, border-color .4s ease;
+  background:transparent;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{
+  background:rgba(240,236,230,.92);
+  backdrop-filter: blur(12px);
+  border-bottom:1px solid rgba(10,10,10,.08);
+  padding:20px 60px;
+}
+nav .logo{ font-family:'Bebas Neue',sans-serif; font-size:1.7rem; letter-spacing:.18em; color:var(--ink); }
+nav ul{ display:flex; gap:42px; list-style:none; }
+nav ul a{
+  position:relative; color:rgba(10,10,10,.5); text-decoration:none;
+  font-size:.68rem; font-weight:500; letter-spacing:.28em; text-transform:uppercase;
+  transition:color .3s ease;
+}
+nav ul a::after{
+  content:''; position:absolute; left:0; bottom:-10px;
+  width:0%; height:1px; background:var(--ink);
+  transition:width .35s cubic-bezier(.23,1,.32,1);
+}
+nav ul a:hover{ color:var(--ink); }
+nav ul a:hover::after{ width:100%; }
+
+/* ─── HERO ─── */
+#hero {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 100vh; background: var(--cream);
+  z-index: 1; overflow: hidden;
+}
+#hero-spacer { height: 200vh; }
+
+.hero-top-badge { position:absolute; top:110px; left:60px; z-index:3; opacity:0; transform:translateY(-20px); animation:fadeUp .8s .4s forwards; }
+.hero-top-badge span { font-size:.65rem; letter-spacing:.4em; text-transform:uppercase; color:rgba(0,0,0,.45); display:flex; align-items:center; gap:10px; }
+.hero-top-badge span::before { content:''; width:32px; height:1px; background:rgba(0,0,0,.3); }
+
+.hero-typo { position:absolute; top:50%; left:0; right:0; transform:translateY(-54%); z-index:2; pointer-events:none; text-align:center; }
+.hero-typo .word-creative { font-family:'Playfair Display',serif; font-style:italic; font-size:clamp(3.5rem,8vw,8rem); font-weight:400; color:#0a0a0a; line-height:1; display:block; opacity:0; animation:fadeUp .9s .2s forwards; }
+.hero-typo .word-portfolio { font-family:'Bebas Neue',sans-serif; font-size:clamp(5rem,18vw,18rem); color:#0a0a0a; line-height:.85; display:block; opacity:0; animation:fadeUp .9s .35s forwards; }
+
+#heroPhoto { position:absolute; bottom:0; left:50%; height:auto; transform:translateX(-50%) translateY(100%); will-change:transform; z-index:3; }
+#heroPhoto img { width:100%; height:100%; object-fit:contain; object-position:bottom center; display:block; }
+
+.hero-name-left { position:absolute; left:60px; bottom:44px; z-index:4; opacity:0; animation:fadeUp .8s .9s forwards; }
+.hero-name-left .big-name { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:.15em; color:#0a0a0a; }
+.hero-name-left .role-small { font-size:.62rem; letter-spacing:.22em; text-transform:uppercase; color:rgba(0,0,0,.45); margin-top:4px; }
+
+.hero-name-right { position:absolute; right:60px; bottom:44px; z-index:4; text-align:right; opacity:0; animation:fadeUp .8s 1s forwards; }
+.hero-name-right p { font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(0,0,0,.4); line-height:2; }
+
+.scroll-hint { position:absolute; bottom:40px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:8px; z-index:10; opacity:0; animation:fadeUp .8s 1.4s forwards; }
+.scroll-hint span { font-size:.58rem; letter-spacing:.3em; text-transform:uppercase; color:rgba(0,0,0,.4); }
+.scroll-line-v { width:1px; height:50px; background:rgba(0,0,0,.2); position:relative; overflow:hidden; }
+.scroll-line-v::after { content:''; position:absolute; top:-100%; left:0; width:100%; height:100%; background:rgba(0,0,0,.5); animation:scanV 2s 1.8s infinite; }
+@keyframes scanV { 0%{top:-100%} 100%{top:100%} }
+
+/* ─── MAIN CONTENT ─── */
+#main-content { position:relative; z-index:2; }
+
+/* ─── MARQUEE ─── */
+#marquee-panel {
+  background: var(--cream-mid);
+  height: 72px;
+  display: flex; align-items: center;
+  border-top: 1px solid rgba(10,10,10,.1); border-bottom: 1px solid rgba(10,10,10,.1);
+  overflow: hidden; flex-shrink: 0;
+}
+.marquee-track { display:flex; gap:50px; animation:marquee 22s linear infinite; white-space:nowrap; width:max-content; align-items:center; }
+.marquee-track span { font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:.15em; color:rgba(10,10,10,.4); flex-shrink:0; }
+.marquee-track .dot { color:rgba(10,10,10,.25); font-size:.6rem; }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ─── ABOUT ─── */
+#about {
+  background: var(--cream); color: #0a0a0a;
+  display: flex; flex-direction: column; overflow: hidden;
+  min-height: 100vh;
+}
+.about-header-bar { display:flex; justify-content:space-between; align-items:center; padding:16px 60px; border-bottom:1px solid rgba(0,0,0,.08); font-size:.58rem; letter-spacing:.35em; text-transform:uppercase; color:rgba(0,0,0,.38); flex-shrink:0; }
+.about-canvas { position:relative; flex:1; overflow:hidden; min-height:500px; }
+.about-big-text { position:absolute; left:60px; top:40px; z-index:2; }
+.about-big-text .hi-script { font-family:'Playfair Display',serif; font-style:italic; font-size:2.8rem; font-weight:400; color:#0a0a0a; display:block; line-height:1; }
+.about-big-text .name-line { font-size:.75rem; letter-spacing:.12em; color:rgba(0,0,0,.55); display:block; margin-bottom:14px; }
+.about-big-text .name-line strong { font-weight:700; text-transform:uppercase; color:#0a0a0a; }
+.about-big-text .word-about { font-family:'Bebas Neue',sans-serif; font-size:clamp(5rem,11vw,10rem); color:#0a0a0a; display:block; line-height:.84; }
+.about-big-text .word-me-row { display:flex; align-items:flex-end; gap:20px; }
+.about-big-text .word-me { font-family:'Bebas Neue',sans-serif; font-size:clamp(5rem,11vw,10rem); color:#0a0a0a; display:block; line-height:.84; }
+.about-roles-inline p { font-size:.62rem; letter-spacing:.22em; text-transform:uppercase; color:rgba(0,0,0,.42); line-height:2; }
+.about-roles-inline .role-divider { width:22px; height:1px; background:rgba(0,0,0,.3); margin-top:6px; }
+.about-photo-wrap { position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:420px; height:100%; display:flex; align-items:flex-end; justify-content:center; pointer-events:none; z-index:3; }
+.about-photo-wrap img { width:100%; height:100%; object-fit:contain; object-position:bottom center; display:block; }
+.about-bio-text { position:absolute; left:60px; bottom:30px; z-index:5; max-width:220px; }
+.about-bio-text p { font-size:.7rem; line-height:1.8; color:rgba(0,0,0,.52); }
+.about-bio-text strong { color:#0a0a0a; font-weight:600; }
+.about-quote-right { position:absolute; right:60px; top:50%; transform:translateY(-50%); z-index:5; max-width:180px; }
+.about-quote-right .qmark { font-family:'Playfair Display',serif; font-size:4.5rem; line-height:.55; color:#0a0a0a; display:block; margin-bottom:16px; opacity:.85; }
+.about-quote-right p { font-size:.78rem; line-height:1.72; color:rgba(0,0,0,.72); font-weight:300; }
+.about-quote-divider { width:26px; height:1px; background:#0a0a0a; margin-top:14px; opacity:.4; }
+.about-signature { position:absolute; bottom:20px; right:60px; z-index:5; font-size:.56rem; letter-spacing:.3em; text-transform:uppercase; color:rgba(0,0,0,.28); }
+.about-stats-bar { display:flex; background:var(--cream-mid); border-top:1px solid rgba(0,0,0,.07); flex-shrink:0; }
+.about-stat-cell { flex:1; padding:22px 44px; border-right:1px solid rgba(0,0,0,.07); position:relative; transition:background .3s; cursor:default; }
+.about-stat-cell:hover { background:var(--cream-dark); }
+.about-stat-cell:last-child { border-right:none; }
+.about-stat-cell::after { content:''; position:absolute; bottom:0; left:0; width:0; height:2px; background:#0a0a0a; transition:width .4s ease; }
+.about-stat-cell:hover::after { width:100%; }
+.about-stat-num { font-family:'Bebas Neue',sans-serif; font-size:2.4rem; color:#0a0a0a; line-height:1; margin-bottom:4px; }
+.about-stat-label { font-size:.55rem; letter-spacing:.22em; text-transform:uppercase; color:rgba(0,0,0,.36); }
+.about-actions { display:flex; align-items:center; gap:24px; padding:16px 60px; border-top:1px solid rgba(0,0,0,.07); background:var(--cream); flex-wrap:wrap; flex-shrink:0; }
+.about-connect-btn { display:inline-flex; align-items:center; gap:10px; padding:10px 26px; border:1px solid #0a0a0a; color:#0a0a0a; text-decoration:none; font-size:.6rem; letter-spacing:.25em; text-transform:uppercase; border-radius:100px; position:relative; overflow:hidden; transition:color .35s; cursor:none; }
+.about-connect-btn::before { content:''; position:absolute; inset:0; background:#0a0a0a; border-radius:100px; transform:scaleX(0); transform-origin:left; transition:transform .4s cubic-bezier(.23,1,.32,1); }
+.about-connect-btn:hover::before { transform:scaleX(1); }
+.about-connect-btn:hover { color:var(--cream); }
+.about-connect-btn span { position:relative; z-index:1; }
+.about-social-links { display:flex; gap:22px; align-items:center; }
+.about-social-link { display:flex; align-items:center; gap:6px; font-size:.6rem; letter-spacing:.1em; color:rgba(0,0,0,.38); text-decoration:none; transition:color .3s; cursor:none; }
+.about-social-link:hover { color:#0a0a0a; }
+.about-social-link svg { width:12px; height:12px; }
+
+/* ─── SKILLS ─── */
+#skills { background: var(--cream-mid); padding: 100px 60px 80px; }
+.section-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:50px; }
+.section-header h2 { font-family:'Bebas Neue',sans-serif; font-size:clamp(3rem,7vw,7rem); line-height:.9; color:var(--ink); }
+.about-label { font-size:.62rem; letter-spacing:.4em; text-transform:uppercase; color:rgba(10,10,10,.4); margin-bottom:28px; }
+.skills-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; }
+
+/* SKILL CARD — compact image */
+.skill-card {
+  background: var(--cream);
+  position:relative; overflow:hidden;
+  transition:transform .4s cubic-bezier(.23,1,.32,1);
+  display:flex; flex-direction:column;
+}
+.skill-card:hover { transform:translateY(-6px); }
+.skill-card::after { content:''; position:absolute; top:0; right:0; width:0; height:2px; background:rgba(10,10,10,.3); transition:width .4s; }
+.skill-card:hover::after { width:100%; }
+
+/* image area — compact logo display */
+.skill-img-wrap {
+  height: 90px;
+  background: var(--cream-dark);
+  overflow: hidden;
+  display:flex; align-items:center; justify-content:center;
+  position: relative;
+  padding: 14px 20px;
+}
+.skill-img-wrap img {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  transition: transform .5s cubic-bezier(.23,1,.32,1);
+  display:block;
+}
+/* fallback logo placeholder when no image */
+.skill-img-wrap .logo-placeholder {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.5rem;
+  letter-spacing:.1em;
+  color:rgba(10,10,10,.25);
+  user-select:none;
+}
+.skill-card:hover .skill-img-wrap img { transform:scale(1.06); }
+
+/* text area — bottom strip */
+.skill-info {
+  padding: 14px 18px;
+  border-top: 1px solid rgba(10,10,10,.07);
+  background: var(--cream);
+}
+.skill-name { font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:.08em; color:var(--ink); margin-bottom:2px; }
+.skill-type { font-size:.58rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(10,10,10,.38); }
+
+/* last "open for work" card */
+.skill-card.open-card {
+  background: var(--cream-dark);
+  border: 1px solid rgba(10,10,10,.1);
+  align-items:center; justify-content:center;
+  text-align:center;
+  padding:38px 28px;
+  min-height: 170px;
+}
+.skill-card.open-card .skill-name { font-size:1.1rem; color:rgba(10,10,10,.7); }
+.skill-card.open-card .open-icon { font-size:2.5rem; margin-bottom:10px; opacity:.5; }
+
+/* ─── WORK ─── */
+#work { background: var(--cream); padding: 100px 0 80px; }
+#work .section-header { padding: 0 60px; margin-bottom: 50px; }
+.work-strip { display:flex; gap:2px; overflow-x:auto; padding:0 60px; scrollbar-width:none; }
+.work-strip::-webkit-scrollbar { display:none; }
+.work-card {
+  flex-shrink:0; width:320px; height:420px;
+  background: var(--cream-dark);
+  position:relative; overflow:hidden; cursor:none;
+  border: 1px solid rgba(10,10,10,.07);
+}
+
+/* thumbnail card — fills entire card, links to video */
+.work-card a.work-link {
+  display:block; width:100%; height:100%;
+  position:absolute; inset:0;
+  text-decoration:none; cursor:none;
+}
+.work-card .work-thumb {
+  width:100%; height:100%;
+  object-fit:cover; display:block;
+  transition: transform .5s cubic-bezier(.23,1,.32,1);
+}
+.work-card:hover .work-thumb { transform:scale(1.04); }
+
+/* play icon overlay on hover */
+.work-card .work-play-overlay {
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  background: rgba(240,236,230,0);
+  transition: background .3s ease;
+  pointer-events:none;
+}
+.work-card:hover .work-play-overlay { background: rgba(240,236,230,.15); }
+.work-play-overlay .play-btn {
+  width:56px; height:56px;
+  border:1.5px solid rgba(10,10,10,.5); border-radius:50%;
+  background:rgba(240,236,230,.75); backdrop-filter:blur(6px);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; transform:scale(.8);
+  transition: opacity .3s ease, transform .3s cubic-bezier(.23,1,.32,1);
+}
+.work-card:hover .play-btn { opacity:1; transform:scale(1); }
+.play-btn svg { width:16px; fill:rgba(10,10,10,.8); margin-left:3px; }
+
+
+/* view all work button */
+.view-all-btn {
+  display:inline-flex; align-items:center; gap:10px;
+  padding:11px 26px;
+  border:1px solid #0a0a0a;
+  color:#0a0a0a;
+  text-decoration:none;
+  font-size:.62rem; font-weight:500; letter-spacing:.22em; text-transform:uppercase;
+  position:relative; overflow:hidden;
+  transition:color .35s;
+  cursor:none;
+  align-self:flex-end; margin-bottom:6px;
+}
+.view-all-btn::before {
+  content:''; position:absolute; inset:0;
+  background:#0a0a0a;
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .4s cubic-bezier(.23,1,.32,1);
+}
+.view-all-btn:hover::before { transform:scaleX(1); }
+.view-all-btn:hover { color:var(--cream); }
+.view-all-btn span, .view-all-btn svg { position:relative; z-index:1; }
+
+.work-card-inner { display:none; }
+.work-arrow { display:none; }
+
+/* ─── EXPERIENCE ─── */
+#experience { background: var(--cream-mid); padding: 100px 60px 80px; }
+.exp-list { margin-top:30px; }
+.exp-item { display:grid; grid-template-columns:180px 1fr auto; gap:38px; padding:36px 0; border-bottom:1px solid rgba(10,10,10,.08); align-items:start; transition:padding-left .4s; cursor:default; }
+.exp-item:hover { padding-left:18px; border-bottom-color:rgba(10,10,10,.2); }
+.exp-year { font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:.1em; color:rgba(10,10,10,.35); padding-top:4px; }
+.exp-title { font-family:'Playfair Display',serif; font-size:1.35rem; font-weight:400; margin-bottom:7px; color:var(--ink); }
+.exp-org { font-size:.78rem; color:rgba(10,10,10,.45); letter-spacing:.08em; }
+.exp-tag { font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(10,10,10,.5); border:1px solid rgba(10,10,10,.18); padding:5px 12px; white-space:nowrap; }
+
+/* ─── CONTACT ─── */
+#contact {
+  background: var(--cream); color: #0a0a0a;
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; overflow: hidden; position: relative;
+}
+#contact::before { content:''; position:absolute; top:-30%; right:-20%; width:80vw; height:80vw; max-width:900px; max-height:900px; background:conic-gradient(from 45deg,#e8e4dd 0%,#ccc 25%,#e8e4dd 50%,#ddd 75%); border-radius:50%; animation:slowSpin 40s linear infinite reverse; opacity:.25; pointer-events:none; }
+@keyframes slowSpin { to{transform:rotate(360deg)} }
+.contact-inner { position:relative; z-index:2; }
+.contact-inner .about-label { color:rgba(0,0,0,.4); }
+#contact h2 { font-family:'Bebas Neue',sans-serif; font-size:clamp(5rem,13vw,13rem); line-height:.85; color:#0a0a0a; letter-spacing:.02em; margin-bottom:24px; }
+#contact p { font-size:.82rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(0,0,0,.4); margin-bottom:44px; }
+.contact-links { display:flex; gap:18px; justify-content:center; flex-wrap:wrap; }
+.contact-btn { display:inline-flex; align-items:center; gap:10px; padding:12px 28px; border:1px solid #0a0a0a; color:#0a0a0a; text-decoration:none; font-size:.68rem; letter-spacing:.25em; text-transform:uppercase; transition:all .3s; position:relative; overflow:hidden; cursor:none; }
+.contact-btn::before { content:''; position:absolute; inset:0; background:#0a0a0a; transform:scaleX(0); transform-origin:left; transition:transform .4s cubic-bezier(.23,1,.32,1); }
+.contact-btn:hover::before { transform:scaleX(1); }
+.contact-btn:hover { color:var(--cream); }
+.contact-btn span { position:relative; z-index:1; }
+.footer-bar { position:absolute; bottom:0; left:0; right:0; padding:24px 60px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(0,0,0,.07); }
+.footer-bar p { font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(0,0,0,.28); }
+
+/* ─── GRAIN ─── */
+body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; z-index:9997; opacity:.4; }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+
+@media (max-width:768px) {
+  nav { padding:18px 24px; } nav ul { gap:18px; }
+  .hero-typo .word-portfolio { font-size:clamp(4rem,20vw,12rem); }
+  #heroPhoto { width:280px; }
+  .about-big-text .word-about, .about-big-text .word-me { font-size:clamp(4rem,14vw,8rem); }
+  .about-photo-wrap { width:280px; }
+  .skills-grid { grid-template-columns:repeat(2,1fr); }
+  #skills, #experience { padding:80px 24px 60px; }
+  #work .section-header { padding:0 24px; }
+  .work-strip { padding:0 24px; }
+  .hero-name-left, .hero-name-right { display:none; }
+  .about-actions { padding:14px 24px; }
+  .about-header-bar { padding:12px 24px; }
+}
+</style>
+</head>
+<body>
+
+<div id="loader"><div class="loader-text" id="loaderText"></div></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <div class="logo">AB</div>
+  <ul>
+    <li><a href="#hero-spacer">Hero</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="Aakash CV .pdf" target="_blank" class="nav-cv-btn"><span>Download CV</span></a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-top-badge">
+    <span>Graphic Designer · VFX Artist · 3D Artist</span>
+  </div>
+  <div class="hero-typo">
+    <span class="word-creative">Creative</span>
+    <span class="word-portfolio">PORTFOLIO</span>
+  </div>
+  <div id="heroPhoto">
+    <img src="sky.png" alt="Aakash Bhor" />
+  </div>
+  <div class="hero-name-left">
+    <div class="big-name">AAKASH BHOR</div>
+    <div class="role-small">Mumbai, India &nbsp;·&nbsp; Available for Projects</div>
+  </div>
+  <div class="hero-name-right">
+    <p>Creative Editor</p>
+    <p>Visual Storyteller</p>
+    <p>3D Artist</p>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line-v"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<div id="hero-spacer"></div>
+
+<div id="main-content">
+
+  <!-- MARQUEE -->
+  <div id="marquee-panel">
+    <div class="marquee-track">
+      <span>Blender</span><span class="dot">✦</span>
+      <span>After Effects</span><span class="dot">✦</span>
+      <span>Photoshop</span><span class="dot">✦</span>
+      <span>Maya</span><span class="dot">✦</span>
+      <span>Illustrator</span><span class="dot">✦</span>
+      <span>DaVinci Resolve</span><span class="dot">✦</span>
+      <span>3Ds Max</span><span class="dot">✦</span>
+      <span>ZBrush</span><span class="dot">✦</span>
+      <span>Premiere Pro</span><span class="dot">✦</span>
+      <span>CorelDraw</span><span class="dot">✦</span>
+      <span>Blender</span><span class="dot">✦</span>
+      <span>After Effects</span><span class="dot">✦</span>
+      <span>Photoshop</span><span class="dot">✦</span>
+      <span>Maya</span><span class="dot">✦</span>
+      <span>Illustrator</span><span class="dot">✦</span>
+      <span>DaVinci Resolve</span><span class="dot">✦</span>
+      <span>3Ds Max</span><span class="dot">✦</span>
+      <span>ZBrush</span><span class="dot">✦</span>
+      <span>Premiere Pro</span><span class="dot">✦</span>
+      <span>CorelDraw</span><span class="dot">✦</span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-header-bar">
+      <span>About Me</span>
+      <span>Creative Portfolio &nbsp;&nbsp; 03</span>
+    </div>
+    <div class="about-canvas">
+      <div class="about-big-text">
+        <span class="hi-script">Hi,</span>
+        <span class="name-line">I'M <strong>AAKASH</strong> BHOR</span>
+        <span class="word-about">ABOUT</span>
+        <div class="word-me-row">
+          <span class="word-me">ME</span>
+          <div class="about-roles-inline">
+            <p>Creative Editor</p>
+            <p>Visual Storyteller</p>
+            <p>3D Artist</p>
+            <div class="role-divider"></div>
+          </div>
+        </div>
+      </div>
+      <div class="about-photo-wrap">
+        <img src="Untitled-2.png" alt="Aakash Bhor" />
+      </div>
+      <div class="about-bio-text">
+        <p>I'm a passionate <strong>Graphic Designer, VFX Artist</strong> and <strong>3D Artist</strong> who loves turning ideas into visual stories. I focus on creating clean, modern and impactful content that helps brands and individuals stand out.</p>
+      </div>
+      <div class="about-quote-right">
+        <span class="qmark">&#8220;</span>
+        <p>I don&rsquo;t just edit videos or design graphics, I create emotions and stories that connect.</p>
+        <div class="about-quote-divider"></div>
+      </div>
+      <div class="about-signature">Aakash Bhor</div>
+    </div>
+    <div class="about-stats-bar">
+      <div class="about-stat-cell"><div class="about-stat-num">3+</div><div class="about-stat-label">Years Experience</div></div>
+      <div class="about-stat-cell"><div class="about-stat-num">11+</div><div class="about-stat-label">Software Mastered</div></div>
+      <div class="about-stat-cell"><div class="about-stat-num">22</div><div class="about-stat-label">Years Old</div></div>
+      <div class="about-stat-cell"><div class="about-stat-num">&#8734;</div><div class="about-stat-label">Creative Drive</div></div>
+    </div>
+    <div class="about-actions">
+      <a href="mailto:aakashbhor87@gmail.com" class="about-connect-btn"><span>Let&rsquo;s Connect &rarr;</span></a>
+      <div class="about-social-links">
+        <a href="mailto:aakashbhor87@gmail.com" class="about-social-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          aakashbhor87@gmail.com
+        </a>
+        <a href="tel:+918850617910" class="about-social-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5 19.79 19.79 0 01.07 2.82 2 2 0 012.07 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          +91 88506 17910
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-header">
+      <div>
+        <p class="about-label">— What I Work With</p>
+        <h2>SOFTWARE<br>ARSENAL</h2>
+      </div>
+    </div>
+    <div class="skills-grid">
+
+      <div class="skill-card">
+        <div class="skill-img-wrap">
+          <img src="photoshop.png" alt="Photoshop"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="logo-placeholder" style="display:none">PS</div>
+        </div>
+        <div class="skill-info"><div class="skill-name">Photoshop</div><div class="skill-type">Image Editing</div></div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-img-wrap">
+          <img src="illustrator.png" alt="Illustrator"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="logo-placeholder" style="display:none">AI</div>
+        </div>
+        <div class="skill-info"><div class="skill-name">Illustrator</div><div class="skill-type">Vector Design</div></div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-img-wrap">
+          <img src="after-effects.png" alt="After Effects"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="logo-placeholder" style="display:none">AE</div>
+        </div>
+        <div class="skill-info"><div class="skill-name">After Effects</div><div class="skill-type">Motion & VFX</div></div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-img-wrap">
+          <img src="premiere-pro.png" alt="Premiere Pro"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="logo-placeholder" style="display:none">PR</div>
+        </div>
+        <div class="skill-info"><div class="skill-name">Premiere Pro</div><div class="skill-type">Video Editing</div></div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-img-wrap">
+          <img src="Davinci.jpg.png" alt="DaVinci Resolve"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="logo-placeholder" style="display:none">DV</div>
+        </div>
+        <div class="skill-info"><div class="skill-name">DaVinci Resolve</div><div class="skill-type">Color & Edit</div></div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-img-wrap">
+          <img src="blender-icon.png" alt="Blender"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="logo-placeholder" style="display:none">Blender</div>
+        </div>
+        <div class="skill-info"><div class="skill-name">Blender</div><div class="skill-type">3D Modeling</div></div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-img-wrap">
+          <img src="maya.jpg.png" alt="Maya"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="logo-placeholder" style="display:none">Maya</div>
+        </div>
+        <div class="skill-info"><div class="skill-name">Maya</div><div class="skill-type">3D Animation</div></div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-img-wrap">
+          <img src="3ds max.jpg.png" alt="3Ds Max"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="logo-placeholder" style="display:none">3DS</div>
+        </div>
+        <div class="skill-info"><div class="skill-name">3Ds Max</div><div class="skill-type">3D Design</div></div>
+      </div>
+
+      <!-- Open for work card -->
+      <div class="skill-card open-card">
+        <div class="open-icon">⚡</div>
+        <div class="skill-name">Freelancer</div>
+        <div class="skill-type" style="margin-top:4px">Open for Work</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WORK EXPERIENCE -->
+  <section id="work-experience">
+    <div class="section-header" style="margin-bottom:50px;">
+      <div>
+        <p class="about-label">— Where I've Worked</p>
+        <h2>WORK<br>EXPERIENCE</h2>
+      </div>
+    </div>
+    <div class="we-grid">
+
+      <!-- Card 1: Perspectiwitty -->
+      <div class="we-card">
+        <div class="we-card-tag">Current Role</div>
+        <div class="we-logo-wrap invert-logo">
+          <img src="perspectiwitty-logo-black.svg" alt="Perspectiwitty Creative Studio">
+        </div>
+        <div class="we-company">Perspectiwitty</div>
+        <div class="we-role">Creative Designer & Motion Artist</div>
+        <div class="we-period">
+          <span class="dot-live"></span>
+          2026 &ndash; Present
+        </div>
+        <p class="we-desc">Working at <strong>Perspectiwitty Creative Studio</strong> on brand visuals, motion graphics, and 3D content. Contributing to end-to-end creative production — from concept development to final delivery — across digital and print media.</p>
+      </div>
+
+      <!-- Card 2: Freelance -->
+      <div class="we-card">
+        <div class="we-card-tag">Independent</div>
+        <div class="we-freelance-icon">⚡</div>
+        <div class="we-company">Freelance</div>
+        <div class="we-role">Graphic Designer · VFX &amp; 3D Artist</div>
+        <div class="we-period">2022 &ndash; Present</div>
+        <p class="we-desc">Working independently with brands and individuals on <strong>graphic design</strong>, <strong>VFX</strong>, video editing, and <strong>3D visualisation</strong>. Tools: Blender, After Effects, Photoshop, Illustrator, DaVinci Resolve, Maya, and 3Ds Max.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="section-header">
+      <h2>SELECTED<br>WORK</h2>
+      <a href="https://drive.google.com/drive/folders/1GhL6kASJDegxBzt8qkKv7E9R6qcdvA7I" target="_blank" class="view-all-btn">
+        <span>View All Work</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="2" y1="7" x2="12" y2="7"/><polyline points="8,3 12,7 8,11"/></svg>
+      </a>
+    </div>
+    <div class="work-strip">
+
+      <div class="work-card">
+        <!-- <a class="work-link" href="YOUR_VIDEO_URL_1" target="_blank"> -->
+          <img class="work-thumb" src="Cueri 1.png" alt="Project 1">
+          <div class="work-play-overlay">
+            <div class="play-btn"><svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg></div>
+          </div>
+        </a>
+      </div>
+
+      <div class="work-card">
+        <!-- <a class="work-link" href="YOUR_VIDEO_URL_2" target="_blank"> -->
+          <img class="work-thumb" src="Cueri 2.png" alt="Project 2">
+          <div class="work-play-overlay">
+            <div class="play-btn"><svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg></div>
+          </div>
+        </a>
+      </div>
+
+      <div class="work-card">
+        <a class="work-link" href="https://www.instagram.com/p/DYjM6xOs6ZZ/" target="_blank">
+          <img class="work-thumb" src="Cueri 3.png" alt="Project 3">
+          <div class="work-play-overlay">
+            <div class="play-btn"><svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg></div>
+          </div>
+        </a>
+      </div>
+
+      <div class="work-card">
+        <a class="work-link" href="https://www.instagram.com/reel/DXg60TniXZe/" target="_blank">
+          <img class="work-thumb" src="maimoon 2.png" alt="Project 4">
+          <div class="work-play-overlay">
+            <div class="play-btn"><svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg></div>
+          </div>
+        </a>
+      </div>
+
+      <div class="work-card">
+        <a class="work-link" href="https://www.instagram.com/reel/DV72WCPiX7u/" target="_blank">
+          <img class="work-thumb" src="Maimoon.png" alt="Project 5">
+          <div class="work-play-overlay">
+            <div class="play-btn"><svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg></div>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-header"><h2>EDUCATION &<br>TRAINING</h2></div>
+    <div class="exp-list">
+      <div class="exp-item"><div class="exp-year">2018–2019</div><div><p class="exp-title">SSC Board</p><p class="exp-org">St. Elias High School · 44.45%</p></div><span class="exp-tag">Education</span></div>
+      <div class="exp-item"><div class="exp-year">2020–2021</div><div><p class="exp-title">HSC Board</p><p class="exp-org">Alpha College of Arts, Commerce & Science · 64%</p></div><span class="exp-tag">Education</span></div>
+      <div class="exp-item"><div class="exp-year">Recent</div><div><p class="exp-title">Graphic Design, VFX & 3D</p><p class="exp-org">DMTI SOFTPRO — Certified Training</p></div><span class="exp-tag">Certification</span></div>
+      <div class="exp-item"><div class="exp-year">Ongoing</div><div><p class="exp-title">Freelance Creative Projects</p><p class="exp-org">Blender · Photoshop · Illustrator · CorelDraw · After Effects</p></div><span class="exp-tag">Freelance</span></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner">
+      <p class="about-label">— Let's Create Together</p>
+      <h2>THANK<br>YOU</h2>
+      <p>Feel free to contact me if you're interested in collaborating.</p>
+      <div class="contact-links">
+        <a href="https://mail.google.com/mail/?view=cm&to=aakashbhor87@gmail.com" target="_blank" class="contact-btn"><span>✉ aakashbhor87@gmail.com</span></a>
+        <a href="tel:+918850617910" class="contact-btn"><span>📞 +91 88506 17910</span></a>
+        <a href="https://drive.google.com/drive/folders/1V5v0_TAVqZyk1uOqn3GWdELIm1v-DOHu" target="_blank" class="contact-btn"><span>🎨 View Full Portfolio</span></a>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <p>© 2026 Aakash Bhor</p>
+      <p>Mumbai · India</p>
+      <p>Graphic Designer · VFX · 3D Artist</p>
+    </div>
+  </section>
+
+</div><!-- /main-content -->
+
+<script>
+/* ── LOADER ── */
+(function(){
+  const el = document.getElementById('loaderText');
+  'AAKASH BHOR'.split('').forEach((ch, i) => {
+    const s = document.createElement('span');
+    s.textContent = ch === ' ' ? '\u00A0' : ch;
+    s.style.animationDelay = i * 0.07 + 's';
+    el.appendChild(s);
+  });
+  window.addEventListener('load', () => {
+    setTimeout(() => document.getElementById('loader').classList.add('done'), 1600);
+  });
+})();
+
+/* ── CURSOR ── */
+(function(){
+  const dot  = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0, my=0, rx=0, ry=0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx+'px'; dot.style.top = my+'px';
+  });
+  (function loop(){
+    rx += (mx-rx)*0.13; ry += (my-ry)*0.13;
+    ring.style.left = rx+'px'; ring.style.top = ry+'px';
+    requestAnimationFrame(loop);
+  })();
+  document.querySelectorAll('a,button,.skill-card,.work-card').forEach(el=>{
+    el.addEventListener('mouseenter',()=>dot.style.transform='translate(-50%,-50%) scale(2.5)');
+    el.addEventListener('mouseleave',()=>dot.style.transform='translate(-50%,-50%) scale(1)');
+  });
+})();
+
+/* ── HERO PHOTO ANIMATION ── */
+(function(){
+  const photo  = document.getElementById('heroPhoto');
+  const spacer = document.getElementById('hero-spacer');
+  function setSpacerHeight(){
+    spacer.style.height = (window.innerHeight * 2) + 'px';
+  }
+  setSpacerHeight();
+  window.addEventListener('resize', setSpacerHeight);
+  function easeOut(t){ return 1 - Math.pow(1 - t, 3); }
+  let raf = null;
+  function tick(){
+    raf = null;
+    const VH = window.innerHeight;
+    const sv = window.scrollY;
+    const t = Math.max(0, Math.min(1, sv / VH));
+    const y = (1 - easeOut(t)) * 100;
+    photo.style.transform = `translateX(-50%) translateY(${y}%)`;
+  }
+  window.addEventListener('scroll', ()=>{ if(!raf) raf=requestAnimationFrame(tick); }, {passive:true});
+  tick();
+})();
+
+/* ── NAV SCROLL ── */
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+</script>
+</body>
+</html>
