@@ -438,6 +438,319 @@ body::after { content:''; position:fixed; inset:0; background-image:url("data:im
   .about-actions { padding:14px 24px; }
   .about-header-bar { padding:12px 24px; }
 }
+
+/* ===========================
+   LARGE TABLETS
+=========================== */
+@media (max-width:1200px){
+
+    nav,
+    nav.scrolled{
+        padding:20px 40px;
+    }
+
+    #skills,
+    #experience,
+    #work-experience{
+        padding:80px 40px;
+    }
+
+    #work .section-header,
+    .work-strip{
+        padding-left:40px;
+        padding-right:40px;
+    }
+
+    .about-header-bar,
+    .about-actions{
+        padding:16px 40px;
+    }
+
+    .hero-top-badge,
+    .hero-name-left{
+        left:40px;
+    }
+
+    .hero-name-right{
+        right:40px;
+    }
+
+    .about-big-text{
+        left:40px;
+    }
+
+    .about-bio-text{
+        left:40px;
+    }
+
+    .about-signature,
+    .about-quote-right{
+        right:40px;
+    }
+
+    .about-photo-wrap{
+        width:340px;
+    }
+
+    .skills-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+}
+
+
+/* ===========================
+   TABLETS
+=========================== */
+
+@media (max-width:992px){
+
+    body{
+        cursor:auto;
+    }
+
+    .cursor,
+    .cursor-ring{
+        display:none;
+    }
+
+    nav{
+        padding:18px 24px;
+    }
+
+    nav.scrolled{
+        padding:16px 24px;
+    }
+
+    nav ul{
+        gap:18px;
+    }
+
+    nav ul a{
+        font-size:.6rem;
+    }
+
+    .hero-top-badge{
+        left:24px;
+    }
+
+    .hero-name-left,
+    .hero-name-right{
+        display:none;
+    }
+
+    #heroPhoto{
+        width:340px;
+    }
+
+    .about-canvas{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        text-align:center;
+        padding:60px 24px;
+        gap:30px;
+    }
+
+    .about-big-text,
+    .about-photo-wrap,
+    .about-bio-text,
+    .about-quote-right,
+    .about-signature{
+        position:static;
+        transform:none;
+        max-width:100%;
+    }
+
+    .about-photo-wrap{
+        width:280px;
+        height:auto;
+    }
+
+    .about-roles-inline{
+        display:none;
+    }
+
+    .about-stats-bar{
+        flex-wrap:wrap;
+    }
+
+    .about-stat-cell{
+        flex:0 0 50%;
+        border-bottom:1px solid rgba(0,0,0,.08);
+    }
+
+    .skills-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .we-grid{
+        grid-template-columns:1fr;
+    }
+
+    .exp-item{
+        grid-template-columns:1fr;
+        gap:10px;
+    }
+
+    .footer-bar{
+        flex-direction:column;
+        gap:10px;
+        text-align:center;
+        padding:20px;
+    }
+
+}
+
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media (max-width:768px){
+
+    html{
+        font-size:15px;
+    }
+
+    nav{
+        flex-wrap:wrap;
+        justify-content:center;
+        gap:15px;
+    }
+
+    nav ul{
+        width:100%;
+        justify-content:center;
+        flex-wrap:wrap;
+    }
+
+    .nav-cv-btn{
+        padding:8px 18px;
+    }
+
+    .hero-top-badge{
+        left:20px;
+        top:95px;
+    }
+
+    .hero-top-badge span{
+        font-size:.55rem;
+    }
+
+    .hero-typo .word-creative{
+        font-size:3rem;
+    }
+
+    .hero-typo .word-portfolio{
+        font-size:5rem;
+    }
+
+    #heroPhoto{
+        width:250px;
+    }
+
+    .scroll-hint{
+        bottom:20px;
+    }
+
+    #skills,
+    #experience,
+    #work,
+    #work-experience{
+        padding:70px 20px;
+    }
+
+    .about-header-bar,
+    .about-actions{
+        padding:15px 20px;
+    }
+
+    .section-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:20px;
+    }
+
+    .skills-grid{
+        grid-template-columns:1fr;
+    }
+
+    .we-card{
+        padding:30px;
+    }
+
+    .work-card{
+        width:260px;
+        height:340px;
+    }
+
+    .contact-links{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .contact-btn{
+        width:100%;
+        justify-content:center;
+    }
+
+}
+
+
+/* ===========================
+   SMALL PHONES
+=========================== */
+
+@media (max-width:480px){
+
+    html{
+        font-size:14px;
+    }
+
+    .hero-top-badge{
+        display:none;
+    }
+
+    .hero-typo .word-creative{
+        font-size:2.2rem;
+    }
+
+    .hero-typo .word-portfolio{
+        font-size:3.7rem;
+    }
+
+    #heroPhoto{
+        width:190px;
+    }
+
+    .about-big-text .word-about,
+    .about-big-text .word-me{
+        font-size:3.4rem;
+    }
+
+    .about-photo-wrap{
+        width:220px;
+    }
+
+    .about-stat-cell{
+        flex:0 0 100%;
+    }
+
+    .work-card{
+        width:220px;
+        height:300px;
+    }
+
+    #contact h2{
+        font-size:4rem;
+    }
+
+    .footer-bar p{
+        font-size:.55rem;
+    }
+
+}
 </style>
 </head>
 <body>
